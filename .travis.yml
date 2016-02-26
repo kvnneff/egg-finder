@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+- stable
+install: npm update
+addons:
+  postgresql: "9.4"
+services:
+  - postgresql
+cache:
+  directories:
+  - node_modules
+before_script:
+  - psql -U postgres -f sql/setup.sql
+after_success:
+- eval "$(ssh-agent -s)"
+- chmod 600 .travis/deploy
+- ssh-add .travis/deploy
+- echo -e "Host eggfinder.net\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- git remote add dokku dokku@eggfinder.net:egg-finder
+- git push dokku master
+env:
+  global:
+  - NODE_ENV=test
+  - secure: H2ueSd+IMLvxRopxhmJltwhPSihU5ZKF4j59we0UA77DBSzLHjIrrMeZisdTZScopq9HRa52g7HnAmVmPTGnJGJIlyiSW7J/UzkcsMb1NNJlxfjhLT25t+mZ68oangAzfXTEUYZR/KT59W0OQHf3jF+8RI8mkpOCG9NeeJZ3q/2f1Xk7OsRI1LJxd0gMkU+GMLaLk3OfZdQy2yyiQogjhuLjwzCubZ5w2Gj7hCEuUtrLg8+feMUtuu9y/EjwRj3aoVFowD7O0/ED0t+cijWFfvaCX/haacr/P/WRrm0/uqJ2ZSrRhNRQAROf+2Ae1NgqK4C5+0o3NjIsaiCOroTJO6EK5/ybz+yNeaBvVOQ4b7Z1nVwfJAgmtr8B6bxXiFRtEDy2yDU+hK9COFdY6lQdYY9zzP6kQKpujLou5Vz4d6FhQJu1CDcRzqXc1t+IkcYwIsIMxxXm4i0Qcg9yVIhAW+Ds2zdXuLOShEXdbhj8QBeY7rhBZZkBFXFVaTadcBOk8BSdMzBNyvr3p0uYx4FjG1SMmoH03Mof7s79lbc2FDaNVi2r3tLkWXHLKbBcs5+/jExL/quu0Mr+yT5jXUuxUyUddlMPCJeO62JNaiVWZfzW6Fnk+IqMkt1UpewlEZXTPcnX7R8d4EI0IvvSCSDhhrhnHsnDLduNa6pcE8MPej8=
+  - secure: tbvxwMZtXH8vIIXehhBeBqZeoce2/Xqba+lOYZSKb1HZh8/iqw3ej3hAWN3gB6fY33RHdbgYXXTGYc0A9HpQ651+K2MHgv4bjZne8fYJGR/p9QCvZrwnHQisDmvv9qEbIS4KJXuZwoJojunjQQJ+9WPhDCW0Pk8swErqjk4Hi5jXECDEQD1eoJJNIlcru4r7ZfOAzpO7qkDy7WYWTuDE+zKFlQPZ7bw67iVDgItOQybvZaW9XohwlIGwjbMXjNtJvTpP1WKv8x7/1ynegqJZecYE/zHGrdewxVeIo4xvtQdNcW/RwdGUI8qrEtBejeqAj1XkPJ0PhndsYkZVd3s0esWI5g1LOL6dgwgq+qJvtDcq2TmJHPreyk5tk87A7K4B7249rapyOUxSY6h+SUB28V1I9JOEc0chHOeGqHG/AiyA1hzCotal269tnVKUgbz2Q0UsEjnJnB/w3y2RJn1lEX9N1eGo3V0fmJ7/GPkjNThcschBs/usfllsEYgAunw135/AW+en0IywOAKUdYD2L0HbVHAW9cX1e6/7/2PAxGUmSjpdTyoyk/e4d4Frz6dLkJuy3zeF/eSTTaOrpLr0AXD82KHkXh4VZt7zcbLBmpWYOkybGpTVgoxCmS6+2OjDBKLkZ74+ihCTbOvLZo5/En/K0+yPrLsh24GHU3+tvW0=
+before_install:
+- openssl aes-256-cbc -K $encrypted_4f4095e6b1f4_key -iv $encrypted_4f4095e6b1f4_iv
+  -in .travis/deploy.enc -out .travis/deploy -d

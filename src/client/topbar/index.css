@@ -1,0 +1,209 @@
+.Topbar {
+  background-color: var(--color-brown);
+  box-shadow: var(--box-shadow);
+  color: #fff;
+  display: flex;
+  flex-shrink: 0;
+  height: 50px;
+  z-index: 99999;
+}
+
+.Topbar-heading {
+  color: #fff;
+  flex-shrink: 0;
+  font-size: 22px;
+  height: 100%;
+  line-height: 50px;
+  margin: 0 10px;
+  text-shadow: rgb(19, 12, 0) 0px -1px 0px;
+  text-decoration: none;
+}
+
+.Topbar-egg {
+  display: none;
+  background-image: url('/egg.png');
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+}
+
+.Topbar-search {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  line-height: 50px;
+  max-width: 400px;
+}
+
+.Topbar-searchForm {
+  display: flex;
+  flex: 1;
+  margin: 8px 0;
+}
+
+.Topbar-searchInput {
+  color: #333;
+  display: flex;
+  flex: 1;
+  border-radius: var(--border-radius);
+  border: 1px solid #333;
+  padding: 0 5px;
+}
+
+.Topbar-searchInput .FormField-controls {
+  display: inline-block;
+  flex: 1;
+  margin: 0 10px;
+  width: auto;
+}
+
+.Topbar-searchInput .FormField-controls input {
+  display: block;
+  min-width: 100px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.Topbar-searchButton {
+  background-color: rgb(79, 72, 55);
+  background-image: linear-gradient(rgb(139, 132, 115) 4%, rgb(109, 102, 85) 5%, rgb(79, 72, 55) 100%);
+  border: 1px solid rgb(59, 52, 35);
+  border-radius: 3px;
+  height: 34px;
+  line-height: normal;
+  padding: 5px 10px;
+  margin-left: 6px;
+}
+
+.Topbar-searchButton:hover {
+  background-image: linear-gradient(rgb(129, 122, 105) 4%, rgb(99, 92, 75) 5%, rgb(59, 52, 35) 100%);
+}
+
+.Topbar-barsIcon {
+  display: none;
+}
+
+.Topbar-navigation {
+  flex: 1 0;
+  text-align: right;
+}
+
+.Topbar-navigationItem {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+}
+
+.Topbar-navigationItem:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Topbar-navigationLink {
+  color: #fff;
+  display: block;
+  height:100%;
+  line-height: 50px;
+  padding: 0 15px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: rgb(19, 12, 0) 0px -1px 0px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.Topbar-navigationLink:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.Topbar-navigationItem:not(:first-of-type):not(:last-of-type) > div {
+  border-radius: 0 0 3px 3px;
+  left: -50%;
+}
+
+.Topbar-navigationItem:first-of-type > div {
+  border-radius: 0 0 3px 0;
+  left: 0;
+  min-width: 400%;
+}
+
+.Topbar-navigationItem:last-of-type > div {
+  border-radius: 0 0 0 3px;
+  min-width: 400%;
+  right: 0;
+}
+
+@media (max-width:430px) {
+  .Topbar-heading {
+    display: none;
+  }
+  .Topbar-egg {
+    display: block;
+  }
+}
+
+@media (max-width:550px) {
+  .Topbar-navigation {
+    background-image: linear-gradient(rgb(209, 202, 185) 5%, rgb(139, 132, 115) 100%);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    height: 100%;
+    overflow-y: auto;
+    position: fixed;
+    right: -300px;
+    top: 0;
+    transition: right 0.3s ease;
+    width: 200px;
+    z-index: 1001;
+  }
+
+  .Topbar-navigationItem {
+    display: block;
+    float: none;
+    height: initial;
+    position: relative;
+  }
+
+  .Topbar-navigationLink {
+    color: rgb(10, 10, 10);
+    text-align: right;
+    text-shadow: none;
+  }
+
+  .Topbar-barsIcon {
+    color: #fbfbfb;
+    display: block;
+    float: right;
+    font-size: 32px;
+    line-height: 50px;
+    padding: 0 15px;
+    transition: background-color 0.2s ease;
+  }
+
+  .Topbar-barsIcon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  .Topbar-barsIcon:hover + nav,
+  nav:hover {
+    right: 0;
+  }
+
+  .Topbar-black {
+    transition: background-color 0.3s ease;
+  }
+
+  .Topbar-barsIcon:hover ~ .Topbar-black,
+  .Topbar-navigation:hover ~ .Topbar-black {
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    left: 0px;
+    pointer-events: none;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+  }
+}

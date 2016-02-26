@@ -1,0 +1,131 @@
+@import 'suitcss-base';
+@import 'hint';
+
+:root {
+  --border-radius: 3px;
+  --box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);
+
+  --color-brown: rgb(79, 72, 55);
+
+
+  --Button-border-color: rgb(200, 200, 200);
+  --Button-border-width: 1px;
+  --Button-color: inherit;
+  --Button-disabled-opacity: 0.6;
+  --Button-font: inherit;
+  --Button-padding: 0.4em 0.75em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+html, body, main {
+  background-color: rgb(245, 245, 235);
+  background-attachment: fixed;
+  color: #333;
+  font-family: Montserrat, serif;
+  font-size: 14px;
+  height: 100%;
+}
+
+#Container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.Form-label {
+  padding-top: 6px;
+  display: block;
+}
+
+.Form-group {
+  /*line-height: 30px;*/
+  text-align: left;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.Form-group--vertical {
+  display: block;
+}
+
+.Form-textareaGroup {
+  height: auto;
+}
+
+.Form-input,
+.Form-selectContainer {
+  text-align: left;
+  width: 100%;
+  flex: 1;
+  /*margin-bottom: 15px;*/
+}
+
+.Form-input {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid rgb(225, 225, 225);
+  display: block;
+}
+
+.Form-label,
+.Form-input,
+.Form-selectContainer {
+  display: block;
+  vertical-align: middle;
+}
+
+.Form-inputHelp {
+  margin-top: -10px;
+}
+
+.TextField .FormField-label {
+  vertical-align: top;
+}
+
+.FormField-label,
+.FormField-controls {
+  display: inline-block;
+}
+
+input[type="checkbox"] {
+  margin: 8px 0 0 0;
+}
+
+.ContentBox {
+  flex: 1;
+  text-align: left;
+  /*margin: 30px;*/
+  /*background-color: rgb(252, 252, 252);
+  border: 1px solid rgb(209, 202, 185);
+  border-radius: var(--border-radius);*/
+  padding: 30px;
+  /*box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);*/
+}
+
+.ContentBox-header {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.ContentBox-content {
+  margin-top: 20px;
+}
+
+@import './button';
+@import './topbar';
+@import './search';
+@import './profile';
+@import './signin';
+@import './message';
+@import './register';
+@import './reset-password';
+@import './location';
+@import './locations-list';
+@import './home';

@@ -1,0 +1,70 @@
+.Profile {
+  text-align: center;
+}
+
+.Profile-content {
+  margin: 20px auto;
+  max-width: 600px;
+  min-width: 450px;
+  background-color: rgb(252, 252, 252);
+  border: 1px solid rgb(209, 202, 185);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.Profile-header {
+  /*text-align: left;*/
+  margin-bottom: 20px;
+}
+
+.Profile-formLabel {
+  width: 255px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+
+/*input, textarea {
+
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 6px rgb(139, 132, 115);
+  outline-color: rgb(209, 202, 185);
+  outline: none;
+}*/
+
+textarea {
+  vertical-align: top;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: rgb(79, 72, 55);
+  background-image: linear-gradient(to right, rgb(209, 202, 185), rgb(79, 72, 55), rgb(209, 202, 185));
+}
+
+label:hover {
+  cursor: pointer;
+}
+
+@media (max-width:450px) {
+  /*.Form-label,
+  .Form-input,
+  .Form-selectContainer {
+    display: block;
+    width: auto;
+    text-align: left;
+  }*/
+
+  .Profile-content {
+    min-width: inherit;
+    margin: 20px;
+  }
+
+  .FormField {
+    text-align: center;
+  }
+}

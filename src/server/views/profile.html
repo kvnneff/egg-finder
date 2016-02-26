@@ -1,0 +1,97 @@
+{{> header}}
+{{> topbar}}
+<div class="Profile">
+  <div class="Profile-content">
+    <div class="Profile-header">
+      <h1 class="Profile-headerText">Your Profile</h1>
+      <hr>
+    </div>
+    <div class="ContentBox-content">
+      {{#if message}}
+        <div class="Message Message--{{message.type}}">{{message.text}}</div>
+      {{/if}}
+      <form method="post" action="/profile" class="Profile-form">
+        <div class="Form-group">
+          <label for="public" class="Form-label Profile-formLabel">
+            List profile publicly
+          </label>
+          <input type="checkbox" class="Form-input Profile-input Profile-checkbox" name="isPublic" id="public" {{#if profile.isPublic}}checked{{/if}} value=true>
+        </div>
+        <div class="Form-group">
+          <label for="available" class="Form-label Profile-formLabel">
+            Eggs currently in stock
+          </label>
+          <input type="checkbox" class="Form-input Profile-input Profile-checkbox" name="available" id="available" {{#if profile.available}}checked{{/if}} value=true>
+        </div>
+        <div class="Form-group">
+          <label for="free-range" class="Form-label Profile-formLabel">
+            Free-range
+          </label>
+          <input type="checkbox" class="Form-input Profile-input Profile-checkbox" name="freeRange" id="free-range" {{#if profile.freeRange}}checked{{/if}} value=true>
+        </div>
+        <div class="Form-group">
+          <label for="organic" class="Form-label Profile-formLabel">
+            Organic
+          </label>
+          <input type="checkbox" class="Form-input Profile-input Profile-checkbox" name="organic" id="organic" {{#if profile.organic}}checked{{/if}} value=true>
+        </div>
+        <div class="Form-group" data-hint="Choose this if your eggs are available to drive-up customers.  A street address is required for drive-up locations.">
+          <label for="drive-up" class="Form-label Profile-formLabel">
+            Drive-up location
+          </label>
+          <input type="checkbox" class="Form-input Profile-input Profile-checkbox" name="driveUp" id="drive-up" {{#if profile.driveUp}}checked{{/if}} value=true>
+        </div>
+        <div class="Form-group">
+          <label for="name" class="Form-label Profile-formLabel">
+            Display Name
+          </label>
+          <input type="text" class="Form-input Profile-input" name="name" id="name" required="true" value="{{profile.name}}">
+        </div>
+        <div class="Form-group">
+          <label for="name" class="Form-label Profile-formLabel">
+            Phone Number
+          </label>
+          <input type="tel" class="Form-input Profile-input" name="phone" id="phone" required="true" value="{{profile.phone}}" maxlength="14">
+        </div>
+        <div class="Form-group">
+          <label for="price" class="Form-label Profile-formLabel">
+            Price per dozen
+          </label>
+          <input type="text" class="Form-input Profile-input" name="price" id="price" required="true" value="{{profile.price}}">
+        </div>
+        <div class="Form-group">
+          <label for="address" class="Form-label Profile-formLabel">
+            Address or nearest intersection
+          </label>
+          <input type="text" class="Form-input Profile-input" name="address" id="address" required="true" value="{{profile.address}}">
+        </div>
+        <div class="Form-group">
+          <label for="city" class="Form-label Profile-formLabel">
+            City
+          </label>
+          <input type="text" class="Form-input Profile-input" name="city" id="city" required="true" value="{{profile.city}}">
+        </div>
+        <div class="Form-group">
+          <label for="state" class="Form-label Profile-formLabel">
+            State
+          </label>
+          <input type="text" class="Form-input Profile-input" name="state" id="state" required="true" value="{{profile.state}}">
+        </div>
+        <div class="Form-group">
+          <label for="zipcode" class="Form-label Profile-formLabel">
+            Zipcode
+          </label>
+          <input type="text" class="Form-input Profile-input" name="zipcode" id="zipcode" required="true" value="{{profile.zipcode}}">
+        </div>
+        <div class="Form-group Form-textareaGroup">
+          <label for="description" class="Form-label Profile-formLabel">
+            Description
+          </label>
+          <textarea class="Form-input Profile-input" name="description" id="description">{{profile.description}}</textarea>
+        </div>
+        <button type="submit" class="Button">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{{> footer js="profile"}}

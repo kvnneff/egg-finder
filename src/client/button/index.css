@@ -1,0 +1,9 @@
+@import 'suitcss-components-button';
+
+.Button {
+  color: #fff;
+  border-radius: var(--border-radius);
+  border: none;
+  background-color: #34495e;
+  margin: 5px 0;
+}
