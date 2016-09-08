@@ -1,43 +1,80 @@
-var UserModel = require('../models/user')
-var LocationModel = require('../models/location')
+const LocationModel = require('../models/location')
+const Location = LocationModel()
 
-function displayLocation (req, res, next) {
-  var locationId = req.params.locationId
-  LocationModel.findById(locationId, function (err, location) {
+const create = (req, res, next) => {
+  const data = req.body
+  data.user_id = req.user.sub
+  const location = Location(data)
+  location.save((err) => {
     if (err) return next(err)
-    if (!location) res.redirect('/404')
-    var message = req.session.message || null
-    if (message) req.session.message = null
-    res.render('location', {
-      user: req.user,
-      location: location,
-      message: message,
-      feature: JSON.stringify(location.toGeoJSON())
+    const result = {
+      location: location.attributes
+    }
+    return res.send(result)
+  })
+}
+
+const get = (req, res, next) => {
+  const user_id = req.params.user_id
+  Location.find(user_id, (err, location) => {
+    if (err) return next(err)
+    if (location) return res.send(location)
+    return res.status(404).send({ message: 'No location found' })
+  })
+}
+
+const destroy = (req, res, next) => {
+  const location_id = req.params.user_id
+  const user_id = req.user.user_id
+  if (user_id !== location_id) {
+    return next(new Error('You are not the owner of this resource'))
+  }
+  Location.find(location_id, (err, location) => {
+    if (err) return next(err)
+    location.remove((err) => {
+      if (err) return next(err)
+      return res.sendStatus(200)
     })
   })
 }
 
-function contactUser (req, res, next) {
-  var locationId = req.params.locationId
-  var from = req.body.from
-  var message = req.body.message
-  LocationModel.findById(locationId, function (err, location) {
+const getRecent = (req, res, next) => {
+  Location.findRecent((err, collection) => {
     if (err) return next(err)
-    UserModel.findById(location.id, function (err, user) {
-      if (err) return next(err)
-      user.contact(from, message, function (err) {
-        if (err) return next(err)
-        req.session.message = {
-          type: 'success',
-          text: 'Your message was sent successfully!'
-        }
-        return res.redirect(req.url)
-      })
-    })
+    return res.send({ collection })
+  })
+}
+
+const search = (req, res, next) => {
+  if (req.query.type === 'name') return findByName(req, res, next)
+  if (req.query.type === 'location') return findWithinRadius(req, res, next)
+}
+
+const findWithinRadius = (req, res, next) => {
+  const latitude = req.body.latitude
+  const longitude = req.body.longitude
+  const radius = req.body.radius
+
+  Location.findWithinRadius(latitude, longitude, radius, (err, collection) => {
+    if (err) return next(err)
+    return res.send({ collection })
+  })
+}
+
+const findByName = (req, res, next) => {
+  const name = req.query.query
+  Location.findByName(name, (err, collection) => {
+    if (err) return next(err)
+    return res.send({ collection })
   })
 }
 
 module.exports = {
-  displayLocation: displayLocation,
-  contactUser: contactUser
+  search,
+  create,
+  destroy,
+  get,
+  getRecent,
+  findWithinRadius,
+  findByName
 }

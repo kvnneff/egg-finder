@@ -1,47 +1,49 @@
-var cookieParser = require('cookie-parser')
-var errorhandler = require('errorhandler')
-var compression = require('compression')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-var passport = require('passport')
-var Express = require('express')
-var debug = require('debug')
-var http = require('http')
-var path = require('path')
-var hbs = require('hbs')
-var pg = require('pg')
+const errorhandler = require('errorhandler')
+const compression = require('compression')
+const bodyParser = require('body-parser')
+const Express = require('express')
+const http = require('http')
+const path = require('path')
+const browserify = require('browserify-middleware')
+const serveStatic = require('serve-static')
+const Emitter = require('component-emitter')
+const massive = require('massive')
+const LocationDB = require('./db/locations')
 
-var UserModel = require('./models/user')
-var middleware = require('./middleware')
-var routes = require('./routes')
+const db = massive.connectSync({
+  connectionString: process.env.DB_URL,
+  scripts: './src/server/db/queries'
+})
 
-var development = process.env.NODE_ENV === 'development'
-var sessionSecret = process.env.SESSION_SECRET
-var port = process.env.PORT || 8080
+LocationDB.init(db)
 
-var app = Express()
-var server = http.Server(app)
+const middleware = require('./middleware')
+const routes = require('./routes')
 
-hbs.registerPartials(__dirname + '/views/partials')
-middleware.passport.setup(UserModel)
-app.set('views', __dirname + '/views')
-app.set('view engine', 'html')
-app.engine('html', hbs.__express)
+const development = process.env.NODE_ENV === 'development'
+const port = process.env.PORT || 8080
+
+const app = Express()
+const server = http.Server(app)
+server.emitter = new Emitter()
+server.db = db
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(cookieParser())
 app.use(compression())
-app.use(session({
-  store: new (require('connect-pg-simple')(session))(),
-  pg: pg,
-  secret: sessionSecret,
-  resave: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(Express.static(path.join(__dirname, '..', 'public')))
+app.use(serveStatic(__dirname + '/../public', { 'index': ['index.html'] }))
 app.use(routes(middleware))
+app.use('/js', browserify(path.join(__dirname, '..', 'client/index.js'), {
+  transform: [
+    'envify',
+    'yo-yoify',
+    'sheetify/transform',
+    'babelify'
+  ],
+  cache: false
+}))
+
+app.use('*', serveStatic(__dirname + '/../public', { 'index': ['index.html'] }))
 
 if (development) {
   app.use(Express.logger('dev'))
@@ -55,8 +57,9 @@ if (development) {
  * @return {undefined}
  */
 server.listen(port, (err) => {
-  if (err) debug(err)
+  if (err) console.error(err)
+  server.emitter.emit('ready')
   console.info('----\n==> running on port %s', port)
 })
 
-module.exports = app
+module.exports = server

@@ -1,36 +1,28 @@
-var express = require('express')
-var UserController = require('../controllers/user')
-var HomeController = require('../controllers/home')
-var LocationController = require('../controllers/location')
-var ProfileController = require('../controllers/profile')
-var SearchController = require('../controllers/search')
+const express = require('express')
+const LocationController = require('../controllers/location')
+const geo = require('../utils/geocoder')
 
-module.exports = function frontendRoutes (middleware) {
-  var sanitize = middleware.sanitize
-  var passport = middleware.passport
-  var router = express.Router()
+const routes = (middleware) => {
+  const sanitize = middleware.sanitize
+  const router = express.Router()
 
-  router.get('/', HomeController.index)
+  router.post('/api/v1/location', middleware.authRequired, sanitize, geo.geoMiddleware, LocationController.create)
+  router.get('/api/v1/location/recent', LocationController.getRecent)
+  router.get('/api/v1/location/search', geo.geoMiddleware, LocationController.search)
+  router.get('/api/v1/location/:user_id', LocationController.get)
+  router.delete('/api/v1/location/:user_id', middleware.auth, LocationController.destroy)
 
-  router.get('/search', SearchController.index)
+  router.post('/api/v1/geocode', middleware.auth, (req, res, next) => {
+    const body = req.body
+    const addressString = body.address
 
-  router.get('/profile', ProfileController.displayProfile)
-  router.post('/profile', passport.authenticate, sanitize, ProfileController.saveProfile)
-
-  router.get('/location/:locationId', LocationController.displayLocation)
-  router.post('/location/:locationId', passport.authenticate, LocationController.contactUser)
-
-  router.get('/login', UserController.displayLogin)
-  router.post('/login', middleware.passport.localSignIn, UserController.signIn)
-  router.get('/logout', UserController.logout)
-  router.get('/signup', UserController.displaySignUp)
-  router.post('/signup', UserController.register)
-  router.get('/reset-password', UserController.displayPasswordReset)
-  router.post('/reset-password', UserController.resetPassword)
-  router.get('/new-password', UserController.displayNewPassword)
-  router.get('/validate-email', UserController.displayValidateEmail)
-  router.post('/new-password', UserController.handleNewPassword)
-  router.get('/verify', UserController.verify)
+    geo.validateAddress(addressString, (err, result) => {
+      if (err) return next(err)
+      return res.send({ result })
+    })
+  })
 
   return router
 }
+
+module.exports = routes

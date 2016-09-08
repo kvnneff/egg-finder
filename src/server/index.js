@@ -1,2 +1,2 @@
 require('dotenv').config({ silent: true })
-require('./server')
+module.exports = require('./server')

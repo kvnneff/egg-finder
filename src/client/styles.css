@@ -1,0 +1,42 @@
+html {
+  background: url(img/eggs2.jpeg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #405952;
+  color: #fff;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 2.25rem;
+  border-radius: 6px;
+}
+
+input[type=checkbox], input[type=radio] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
+}
+
+input[type="text"],
+select {
+  padding: 0.5em 0.6em;
+  border-radius: 0;
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: 0;
+  border: 3px solid #000;
+  background: none;
+  color: #fff;
+}
+
+a {
+  color: #E74C3C;
+}

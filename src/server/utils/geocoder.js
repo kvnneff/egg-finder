@@ -1,10 +1,30 @@
-var Geocoder = require('node-geocoder')
-var geocoder = Geocoder('google', 'http')
+const Geocoder = require('node-geocoder')
+const geocoder = Geocoder('google', 'http')
 
-function validateAddress (addressString, cb) {
+const validateAddress = (addressString, cb) => {
   stringToGeo(addressString, function (err, geoLocation) {
     if (err) return cb(err)
     return cb(null, geoLocation)
+  })
+}
+
+const geoMiddleware = (req, res, next) => {
+  const body = req.body
+  const query = req.query
+  let string
+
+  if (query) {
+    string = query.query
+  } else {
+    string = `${body.street}, ${body.city}, ${body.state} ${body.zipcode}`
+  }
+  console.log(req.body)
+  stringToGeo(string, (err, res) => {
+    if (err) return next(err)
+    req.body.latitude = res.geometry.coordinates[1]
+    req.body.longitude = res.geometry.coordinates[0]
+    if (query) req.body.radius = req.query.radius
+    return next()
   })
 }
 
@@ -14,10 +34,11 @@ function validateAddress (addressString, cb) {
  * @param  {Function} cb     Callback
  * @return {Object}
  */
-function stringToGeo (addressString, cb) {
+const stringToGeo = (addressString, cb) => {
   if (!addressString || typeof addressString !== 'string') {
     return cb(new Error('Expected a string but got ', addressString))
   }
+
   geocoder.geocode(addressString, function (err, response) {
     if (err) return cb(err)
     if (!response.length) return cb(Error('Unable to locate that address.'))
@@ -44,6 +65,7 @@ function stringToGeo (addressString, cb) {
 }
 
 module.exports = {
-  validateAddress: validateAddress,
-  stringToGeo: stringToGeo
+  validateAddress,
+  stringToGeo,
+  geoMiddleware
 }
