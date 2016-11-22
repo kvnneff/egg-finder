@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ei-edge')
+    link(href='https://unpkg.com/tachyons@4.5.2/css/tachyons.min.css', rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css', rel='stylesheet')
+    link(href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css', rel='stylesheet')
+    //- link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet')
+    link(href='/css/styles.css', rel='stylesheet')
+
+    block title
+      title Nest Box
+  body
+    include ../components/navigation.pug
+    block content
+    footer.footer.dn.db-ns
+      div Footer
+      block scripts

@@ -1,0 +1,13 @@
+extends layouts/layout.pug
+include mixins/signin.pug
+
+block content
+  div.center.flex.flex-auto.flex-column.ma3.mw6
+    div.ba-ns.b--light-gray.bw3-ns.bw3.mt3.mt5-ns
+      div.ba-ns.b--light-silver.pa3
+        h1.f2.mt0 Log In
+        div.signin-message
+        +signin(user)
+
+block scripts
+  script(type='text/javascript', src='/js/signin.js')

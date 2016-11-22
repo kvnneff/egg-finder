@@ -1,0 +1,31 @@
+mixin searchform(query)
+  form.search.measure.center(action='/search')
+    div.mb3
+        input#input.w-100.pa2(placeholder='Search Nest Box', type='text', name='search_text', value=query.search_text, required=true)
+        label.dn(for='input') Search Nest Box
+  
+    div
+      div.f4 Search Type
+      div.ml3.mb3
+        div
+          label(for='type-address')
+            input#type-address.mdl-radio__button(type='radio', name='type', value='address', checked=(query.type==='address'))
+            span.ml1 Address
+        div
+          label(for='type-name')
+            input#type-name(name='type', value='name', checked=(query.type==='name'), type='radio')
+            span.ml1 Farm Name
+     
+      div.f4 Filters
+      ul.list.ma0.pl3
+        li
+          label(for='organic')
+            input(type='checkbox', name='organic', id='organic', checked=query.organic)
+            span.ml1 Organic
+      
+        li
+          label(for='freerange')
+            input(type='checkbox', name='freerange', id='freerange', checked=query.freerange)
+            span.ml1 Free-range
+    div.mt3.center.w-100
+      button.link.dim.br2.bn.ph3.pv2.mb2.dib.white.bg-blue.signin-button.w-100(type='submit') Find farms

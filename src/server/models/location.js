@@ -18,7 +18,8 @@ const LocationSchema = Joi.object().keys({
   phone: Joi.string().length(14).empty(null),
   free_range: Joi.boolean().required(),
   organic: Joi.boolean().required(),
-  drive_up: Joi.boolean().required()
+  drive_up: Joi.boolean().required(),
+  farm_id: Joi.number().empty(null)
 })
 
 // function toAddressString (attributes) {
@@ -48,7 +49,8 @@ const defaultState = {
   organic: false,
   drive_up: false,
   created_at: null,
-  updated_at: null
+  updated_at: null,
+  farm_id: null
 }
 
 const LocationModel = (db = defaultDB) => {
@@ -82,6 +84,7 @@ const LocationModel = (db = defaultDB) => {
 
     const toJSON = () => {
       const {
+        farm_id,
         user_id,
         name,
         email,
@@ -101,6 +104,7 @@ const LocationModel = (db = defaultDB) => {
       } = attributes
 
       return {
+        farm_id,
         user_id,
         name,
         email,
@@ -154,6 +158,14 @@ const LocationModel = (db = defaultDB) => {
     })
   }
 
+  Location.findFarm = (farm_id, cb) => {
+    db.findFarm(farm_id, (err, result) => {
+      if (err) return cb(err)
+      if (result) return cb(null, Location(result))
+      return cb(null)
+    })
+  }
+
   Location.findRecent = (cb) => {
     db.findRecent((err, collection) => {
       if (err) return cb(err)
@@ -171,10 +183,7 @@ const LocationModel = (db = defaultDB) => {
   Location.findWithinRadius = (latitude, longitude, radius, cb) => {
     db.findWithinRadius(latitude, longitude, radius, (err, results) => {
       if (err) return cb(err)
-      const locations = {
-        type: 'FeatureCollection',
-        features: []
-      }
+      const locations = []
 
       if (results.length) {
         results.forEach(function (result) {
@@ -182,7 +191,7 @@ const LocationModel = (db = defaultDB) => {
           const markerColor = geoJSON.properties.available ? '#56b881' : '#ff0033'
           geoJSON.properties['marker-color'] = markerColor
           geoJSON.properties.title = geoJSON.properties.name
-          locations.features.push(geoJSON)
+          locations.push(geoJSON)
         })
       }
       return cb(null, locations)
@@ -193,17 +202,14 @@ const LocationModel = (db = defaultDB) => {
     db.findByName(name, (err, results) => {
       if (err) return cb(err)
 
-      const locations = {
-        type: 'FeatureCollection',
-        features: []
-      }
+      const locations = []
 
       results.forEach((result) => {
         const geoJSON = Location(result).toGeoJSON()
         const markerColor = geoJSON.properties.available ? '#56b881' : '#ff0033'
         geoJSON.properties['marker-color'] = markerColor
         geoJSON.properties.title = geoJSON.properties.name
-        locations.features.push(geoJSON)
+        locations.push(geoJSON)
       })
 
       return cb(null, locations)

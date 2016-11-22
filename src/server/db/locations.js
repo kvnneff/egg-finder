@@ -70,6 +70,13 @@ const find = (user_id, cb) => {
   })
 }
 
+const findFarm = (farm_id, cb) => {
+  db.locations.find({ farm_id }, function (err, results) {
+    if (err) return cb(err)
+    return cb(null, results[0] ? results[0] : null)
+  })
+}
+
 const findWithinRadius = (latitude, longitude, radius, cb) => {
   var values = [latitude, longitude, milesToMeters(radius)]
   db.findWithinRadius(values, function (err, results) {
@@ -96,6 +103,7 @@ const findByName = (name, cb) => {
 
 module.exports = {
   findWithinRadius,
+  findFarm,
   findByName,
   findRecent,
   find,

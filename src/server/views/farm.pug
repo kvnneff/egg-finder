@@ -1,0 +1,59 @@
+extends layouts/layout.pug
+
+block content
+  div.FarmPage.w-100.bg-near-white.flex-column.flex.relative.flex-auto
+    div.absolute.w-100
+      div#map
+    div.FarmPage-card.mw7.center.pa3.bg-white.flex-column.w-100.ba.b--light-gray.z-5
+      h1.w-100.tc.f2.f1-ns.mt0= farm.properties.name
+      div.flex.flex-column.flex-row-ns
+        div.farm-sidebar.order-first.order-last-ns.w6
+          div.mb3
+            span.ttu.b Location
+            p #{farm.properties.street} <br> #{farm.properties.city}, #{farm.properties.state} #{farm.properties.zipcode}
+          div
+            span.ttu.b Contact
+            p
+              if farm.properties.email
+                a(href='mailto:#{farm.properties.email}')= farm.properties.email
+              if farm.properties.phone
+                span= farm.properties.phone
+
+          div.mb3
+            span.ttu.b Details
+            ul.list.pa0.ma0
+              if farm.properties.available
+                li
+                  i.fa.fa-check.green.mr2(aria-hidden='true')
+                  | Eggs are available
+              else
+                li
+                  i.fa.fa-close.red.mr2
+                  | Eggs are unavailable
+              if farm.properties.organic
+                li
+                  i.fa.fa-check.green.mr2(aria-hidden='true')
+                  | Organic
+              else
+                li
+                  i.fa.fa-close.red.mr2(aria-hidden='true') 
+                  | Organic
+              if farm.properties.free_range
+                li
+                  i.fa.fa-check.green.mr2(aria-hidden='true')
+                  | Free-range
+              else
+                li
+                  i.fa.fa-close.red.mr2(aria-hidden='true')
+                  | Free-range
+ 
+        div.mr4-ns
+          span.ttu.b About this Farm
+          p= farm.properties.description
+          p
+            | "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          
+  script var geoJSON = [!{JSON.stringify(farm).replace(/<\//g, '<\\/')}]
+
+block scripts
+  script(type='text/javascript', src='/js/farm.js')

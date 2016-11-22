@@ -1,0 +1,17 @@
+extends layouts/layout.pug
+include mixins/search.pug
+
+block content
+  main.flex.flex-auto.flex-column
+    div.HomePage.white.bg-eggs.w-100.flex-auto.flex-column.pa3.pa5-ns
+      div.z-5.pa5-ns.pa3.mw6.mt4.tl.bg-black-50
+        div.ma0-ns.tc.tl-ns
+          h1.b.lh-title.f3-ns.f4.mb4-ns.mb3.mt0 Find eggs being sold by small farms near you.
+        div.center
+          +searchform(query)
+        div.tc
+          p.ma0
+            a.link.white.dim(href="/register") Want to list your farm? Register.
+
+block scripts
+  script(type='text/javascript', src='/js/home.js')

@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 
 const defaultUser = {
   user_id: '1234',
-  name: 'Foo'
+  name: 'Foo',
+  sub: '1234'
 }
 
 const getToken = (tokenUser) => {

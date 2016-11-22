@@ -1,14 +1,7 @@
 const needle = require('needle')
 const Test = require('tape')
-const getToken = require('../../utils/token')
 
 const baseURI = 'http://localhost:8080/api/v1'
-
-const requestOptions = {
-  headers: {
-    'Authorization': `Bearer ${getToken()}`
-  }
-}
 
 const Geocoder = (server, done) => {
   Test('/geocode', (t) => {
@@ -17,10 +10,10 @@ const Geocoder = (server, done) => {
 
     test('returns the coordinates of a given address', (t) => {
       t.plan(2)
-      const address = 'address=220 Nickerson, Seattle, WA'
-      const uri = `${baseURI}/geocode`
 
-      needle.post(uri, address, requestOptions, (err, response) => {
+      const uri = `${baseURI}/geocode?type=address&search_text=5285 Williams Hwy, Williams, OR`
+
+      needle.get(uri, (err, response) => {
         t.equal(err, null)
         t.ok(response.body.result)
       })

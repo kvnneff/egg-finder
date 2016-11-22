@@ -1,0 +1,13 @@
+extends layouts/layout.pug
+include mixins/farm-form.pug
+
+
+block content
+  div.CreatePage.w-100.center.mh2.mw7-ns.br3.ph3
+    div.tl-ns.tc
+      h1.f2.f1-ns Create Farm Profile
+    div
+      +farmform(farm, {})
+
+block scripts
+  script(type='text/javascript', src='/js/farm.js')

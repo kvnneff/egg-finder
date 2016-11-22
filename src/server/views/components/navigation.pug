@@ -1,0 +1,10 @@
+nav.navigation.pa2.pa3-ns.bg-green.shadow-1
+    div.cf
+      a(href='/' title='Home', class='link dim dib mr3 white f4 b') Nest Box
+      div.fr
+        if user
+          a.link.dim.dib.mr3.f6.white(href=`http://localhost:8080/profile/${user.farm_id}` title='Your profile') Your profile
+          a(href='http://localhost:8080/logout' title='Sign Out' class='white f6 ttu-uppercase link dim dib mr3') Sign Out
+        else
+          a.link.dim.dib.mr3.f6.white(href='/register' title='Register') Register
+          a(href='/signin' title='Sign In' class='f6 link dim dib mr3 white') Sign In

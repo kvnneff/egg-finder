@@ -9,16 +9,22 @@ const validateAddress = (addressString, cb) => {
 }
 
 const geoMiddleware = (req, res, next) => {
-  const body = req.body
   const query = req.query
-  let string
+  const body = req.body
+  let string = null
 
-  if (query) {
-    string = query.query
-  } else {
-    string = `${body.street}, ${body.city}, ${body.state} ${body.zipcode}`
+  if (query && query.type) {
+    if (query.type === 'name') {
+      return next()
+    }
+
+    string = query.search_text
   }
-  console.log(req.body)
+
+  if (body) {
+    string = `${body.street} ${body.city}, ${body.state} ${body.zipcode}`
+  }
+
   stringToGeo(string, (err, res) => {
     if (err) return next(err)
     req.body.latitude = res.geometry.coordinates[1]

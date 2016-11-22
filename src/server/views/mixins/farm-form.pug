@@ -1,0 +1,89 @@
+mixin farmform(farm, errors, submitText)
+  form(method='post', action='/create')
+    fieldset.ba.br3.b--black-10.mb3.pa3
+      legend.f4.b.near-black Farm Details
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='name') Farm Name
+          span.red  *
+        div.overflow-hidden
+          input#name.w-100.pa2(type='text', name='name', required='true', value=`${farm.name || ''}`)
+          div #{errors.name}
+      div.mv3
+        div.dn.db-ns.fl-ns.w-40-ns &nbsp;
+        div.w-50-ns.dib-ns
+          label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='is_public')
+            input#is_public.mr1.mdl-checkbox__input(type='checkbox', name='is_public', checked=farm.is_public)
+            span.mdl-checkbox__label.ml1 List profile publicly
+          div #{errors.is_public}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='street') Street Address
+        div.overflow-hidden
+          input#street.w-100.pa2(type='text', name='street', value=`${farm.street || ''}`)
+          div #{errors.street}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='city') City
+          span.red  *
+        div.overflow-hidden
+          input#city.w-100.pa2(type='text', name='city', required='true', value=`${farm.city || ''}`)
+          div #{errors.city}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='state') State
+          span.red  *
+        div.overflow-hidden
+          input#state.w-100.pa2(type='text', name='state', required='true', value=`${farm.state || ''}`)
+          div #{errors.state}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='zipcode') Zipcode
+          span.red  *
+        div.overflow-hidden
+          input#zipcode.w-100.pa2(type='text', name='zipcode', required='true', value=`${farm.zipcode || ''}`)
+          div #{errors.zipcode}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='description') Description
+        div.overflow-hidden
+          textarea#description.pa2.w-100(name='description', required='true', value=`${farm.description || ''}`)
+          div #{errors.description}
+    fieldset.ba.br3.b--black-10.mb3.pa3
+      legend.f4.b.near-black Egg Details
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='price') Price per dozen
+          span.red  *
+        | $
+        input#price.ml2.pa2(type='number', name='price', required='true', step='0.50', min='0.50', value=`${farm.price || '3.50'}`)
+        div #{errors.price}
+      div.mv3
+        div.dn.db-ns.fl-ns.w-40-ns &nbsp;
+        div.w-50-ns.dib-ns
+          label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='available')
+            input#available.mdl-checkbox__input(type='checkbox', name='available', checked=farm.available)
+            span.mdl-checkbox__label.ml1 Eggs currently in stock
+          div #{errors.available}
+      div.mv3
+        div.dn.db-ns.fl-ns.w-40-ns &nbsp;
+        div.w-50-ns.dib-ns
+          label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='free_range')
+            input#free_range.mr1.mdl-checkbox__input(type='checkbox', name='free_range', checked=farm.free_range)
+            span.mdl-checkbox__label.ml1 Free-range
+          div #{errors.free_range}
+      div.mv3
+        div.dn.db-ns.fl-ns.w-40-ns &nbsp;
+        div.w-50-ns.dib-ns
+          label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='organic')
+            input#organic.mr1.mdl-checkbox__input(type='checkbox', name='organic', checked=farm.organic, value='true')
+            span.mdl-checkbox__label.ml1 Organic
+          div #{errors.organic}
+    fieldset.ba.br3.b--black-10.mb3.pa3
+      legend.f4.b.near-black Public Contact Information
+        span.red.f6  * (at least one method of contact is required)
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='phone') Phone Number
+        div.overflow-hidden
+          input#phone.w-100.pa2(type='tel', name='phone', value=`${farm.phone || ''}`)
+          div #{errors.phone}
+      div.mv3
+        label.db.fl-ns.w-40-ns.mt1(for='email') Email
+        div.overflow-hidden
+          input#email.w-100.pa2(type='email', name='email', value=`${farm.email || ''}`)
+          div #{errors.email}
+    div.tc
+      button.bn.bg-blue.dim.ph3.pv2.mb2.dib.white(type='submit')=`${submitText || 'Submit'}`

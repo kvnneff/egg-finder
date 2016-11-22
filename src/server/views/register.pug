@@ -1,0 +1,21 @@
+extends layouts/layout.pug
+
+block content
+  main.flex.flex-auto.flex-column.center.ma3.mw6
+    div.ba-ns.b--light-gray.bw3-ns.bw3.mt3.mt5-ns
+      div.ba-ns.b--light-silver.pa3
+        div.register
+          h1.f2.mt0 Register
+          p.mb3 Create an account by providing your email below.  Once you've registered you'll be able to create a profile for your farm.
+          div.register-success
+          form.register-form.measure.center(action='/search')
+            div.mv3
+              label.db.fl-ns.w-40-ns.mt1.b.hidden(for='email') Email
+              div
+                input#email.w-100.pa2(type='text', name='email', placeholder='Email Address')
+            div.w-100
+              button.link.dim.br2.bn.ph3.pv2.mb2.dib.white.bg-dark-blue.signin-button.w-100(type='submit') Submit
+
+
+block scripts
+  script(type='text/javascript', src='/js/register.js')

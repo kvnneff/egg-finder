@@ -1,0 +1,18 @@
+extends layouts/layout.pug
+include mixins/farm-form.pug
+
+block content
+  div.UserPage.w-100
+    div.center.flex.flex-auto.flex-column.pa3.mw7
+      h1 Public Farm Profile
+      if farm
+        +farmform(farm, {}, 'Update Profile')
+      else
+        div.ba-ns.b--light-gray.bw3-ns.bw3.mt3.mt5-ns
+          div.ba-ns.b--light-silver.pa3
+            p You have not yet created a farm profile
+            div.tc
+              a.link.dim.br2.bn.ph3.pv2.mb2.dib.white.bg-dark-blue(href='/create') Create Farm Profile
+
+block scripts
+  script(type='text/javascript', src='/js/user.js')

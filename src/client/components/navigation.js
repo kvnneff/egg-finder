@@ -3,8 +3,8 @@ const Auth0 = require('auth0-lock').default
 
 const lock = new Auth0(process.env.AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN)
 
-const Navigation = (state, prevState, dispatch) => {
-  const isAuthenticated = state.user.idToken
+const Navigation = (state = {}, prevState, dispatch) => {
+  const isAuthenticated = state.user && state.user.idToken ? state.user.idToken : null
   let button
 
   const signIn = () => {
@@ -32,7 +32,7 @@ const Navigation = (state, prevState, dispatch) => {
   }
 
   return h`<nav class="Navigation pa3 pa4-ns">
-    <a class="link dim white b f6 f5-ns dib mr3" href="#" title="Home">Egg Finder</a>
+    <a class="link dim white b f6 f5-ns dib mr3" href="/" title="Home">Egg Finder</a>
     ${button}
     <a class="link dim white f6 f5-ns dib mr3" title="Create Listing" href="/create">Create</a>
   </nav>`

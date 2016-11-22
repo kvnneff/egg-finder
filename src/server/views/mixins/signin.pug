@@ -1,0 +1,12 @@
+mixin signin(user)
+  div.signin
+    p Enter your email address below and a message will be sent to you with a link allowing you to sign in.
+    form.signin-form
+      div
+        div.mb3
+          label.dn(for='email') Email
+          div
+            input#email.w-100.pa2(type='text', name='email', placeholder='Email Address')
+      div
+        button.link.dim.br2.bn.ph3.pv2.mb2.dib.white.bg-dark-blue.signin-button.w-100(type='submit') Submit
+

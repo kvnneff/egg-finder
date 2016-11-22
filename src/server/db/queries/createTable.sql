@@ -5,7 +5,8 @@ DROP TABLE locations;
 --
 
 CREATE TABLE locations (
-    user_id text primary key,
+    farm_id serial primary key,
+    user_id text NOT NULL UNIQUE,
     name text NOT NULL,
     email text NOT NULL,
     street text NOT NULL,

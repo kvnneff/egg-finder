@@ -1,0 +1,57 @@
+extends layouts/layout.pug
+include mixins/search.pug
+
+mixin farm(data)
+  li.bb.b--light-gray.pa3
+    h5.mt0.mb1
+      a.link.b(href=`/farm/${data.farm_id}` title=data.name) #{data.name}
+    span #{data.address}
+    div #{data.city}, #{data.state}
+    div.mt3
+      ul.list.pa0
+        if data.available
+          li
+            i.fa.fa-check.green.mr2(aria-hidden='true')
+            | Eggs available
+        if data.organic
+          li
+            i.fa.fa-check.green.mr2(aria-hidden='true')
+            | Organic
+        if data.free_range
+          li 
+            i.fa.fa-check.green.mr2(aria-hidden='true')
+            |Free-range
+    div
+      data.description
+
+block content
+  div.SearchPage.flex.flex-auto
+    div.sidebar.w-100.br.b--light-silver.flex-row.mw6
+      div.bg-white
+        div.dn-ns.w-100.pa3.bg-teal
+          div.ba.b--black-10.cf.bg-white.pa2.br2
+            i.fa.fa-search.fl.pt1
+            input#mobile-search-button(value=query.search_text).f4.br2.bn.b--black-10.center.db.fl.pl2
+
+        div#mobile-search-form.bg-near-white.w-100.dn.db-ns.fixed.top-0.static-ns.bb.b--light-gray
+          div.bg-light-gray.tc.dn-ns
+            h3.ma0.pa3.dib Find a farm
+            div#mobile-search-close-button.fr X
+          div.pa3
+            +searchform(query)
+        
+        div.b.bg-gray.pa2.tc.white #{farms.length} farms found
+        div
+          if farms.length
+            ul.list.pa0
+              each val in farms
+                +farm(val.properties)
+          else
+            p No farms found
+    div.dn.db-ns.flex-row.w-100
+      div(id='map')
+    
+
+block scripts
+  script var geoJSON = !{JSON.stringify(farms).replace(/<\//g, '<\\/')}
+  script(type='text/javascript', src='js/search.js')

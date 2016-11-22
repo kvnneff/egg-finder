@@ -18,5 +18,6 @@ module.exports = function sanitize (req, res, next) {
       })
     }
   })
+  console.log('sanitized')
   return next()
 }
